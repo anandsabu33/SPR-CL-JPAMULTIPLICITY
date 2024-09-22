@@ -59,6 +59,12 @@ public class StudentService {
      */
     public void assignClassroomToStudent(long studentId, Classroom classroom){
 
+        Student existingStudent = studentRepository.findById(studentId)
+            .orElseThrow(() -> new RuntimeException("Student not found"));
+        existingStudent.setClassroom(classroom);
+        studentRepository.save(existingStudent);
+        
+
     }
 
     /**
@@ -69,7 +75,9 @@ public class StudentService {
      * @return the Classroom of the student
      */
     public Classroom getClassroomOfStudent(long studentId){
-        return null;
+        Student existingStudent = studentRepository.findById(studentId)
+            .orElseThrow(() -> new RuntimeException("Student not found"));
+        return existingStudent.getClassroom();
     }
 
     /**
@@ -79,6 +87,10 @@ public class StudentService {
      * @param studentId Id of a persisted, existing student entity
      */
     public void unassignClassroomOfStudent(long studentId){
-
+        Student existingStudent = studentRepository.findById(studentId)
+            .orElseThrow(() -> new RuntimeException("Student not found"));
+        existingStudent.setClassroom(null);
+        studentRepository.save(existingStudent);
+    
     }
 }
